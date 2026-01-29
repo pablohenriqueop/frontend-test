@@ -89,8 +89,6 @@ bun run test:e2e:ui
 bun run test
 ```
 
-A duração padrão dos toasts foi ajustada para 10 segundos.
-
 ## 🏗️ Estrutura do Projeto
 
 O projeto segue uma arquitetura baseada em **MVVM (Model-View-ViewModel)** com Adapters:
