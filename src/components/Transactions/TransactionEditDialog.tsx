@@ -1,5 +1,5 @@
 import { DownloadIcon, UploadIcon } from "@radix-ui/react-icons";
-import { cn } from "@/libs/merge";
+import { cva } from "class-variance-authority";
 import type { Transaction } from "@/models";
 import { useTransactionEditViewModel } from "@/viewmodels";
 import { Button } from "../ui/Button";
@@ -23,6 +23,21 @@ function FooterSkeleton() {
 		</>
 	);
 }
+
+const toggleVariants = cva(
+	"flex items-center gap-2.5 px-3 py-0.5 rounded-[19px] h-6 text-sm font-medium transition-colors cursor-pointer",
+	{
+		variants: {
+			active: {
+				true: "bg-neutral-700 text-white",
+				false: "text-white hover:bg-neutral-700",
+			},
+		},
+		defaultVariants: {
+			active: false,
+		},
+	},
+);
 
 export function TransactionEditDialog({
 	transaction,
@@ -70,12 +85,7 @@ export function TransactionEditDialog({
 									<button
 										type="button"
 										onClick={() => form.setValue("type", "income")}
-										className={cn(
-											"flex items-center gap-2.5 px-3 py-0.5 rounded-[19px] h-6 text-sm font-medium transition-colors cursor-pointer",
-											type === "income"
-												? "bg-neutral-700 text-white"
-												: "text-white hover:bg-neutral-700",
-										)}
+										className={toggleVariants({ active: type === "income" })}
 									>
 										<DownloadIcon className="w-3 h-3" />
 										Entrada
@@ -83,12 +93,7 @@ export function TransactionEditDialog({
 									<button
 										type="button"
 										onClick={() => form.setValue("type", "outcome")}
-										className={cn(
-											"flex items-center gap-2.5 px-3 py-0.5 rounded-[19px] h-6 text-sm font-normal transition-colors cursor-pointer",
-											type === "outcome"
-												? "bg-neutral-700 text-white"
-												: "text-white hover:bg-neutral-700",
-										)}
+										className={toggleVariants({ active: type === "outcome" })}
 									>
 										<UploadIcon className="w-3 h-3" />
 										Saída

@@ -31,6 +31,13 @@ const buttonVariants = cva(
 				square: "rounded-lg",
 			},
 		},
+		compoundVariants: [
+			{
+				size: "icon",
+				shape: undefined,
+				className: "rounded-lg",
+			},
+		],
 		defaultVariants: {
 			variant: "outline",
 			size: "default",
@@ -47,15 +54,11 @@ export interface ButtonProps
 
 const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
 	({ className, variant, size, shape, asChild = false, ...props }, ref) => {
-		const finalShape = shape || (size === "icon" ? "square" : "pill");
-
 		const Comp = asChild ? Slot : "button";
 
 		return (
 			<Comp
-				className={cn(
-					buttonVariants({ variant, size, shape: finalShape, className }),
-				)}
+				className={cn(buttonVariants({ variant, size, shape, className }))}
 				ref={ref}
 				{...props}
 			/>

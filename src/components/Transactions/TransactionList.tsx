@@ -4,6 +4,7 @@ import {
 	TrashIcon,
 	UploadIcon,
 } from "@radix-ui/react-icons";
+import { cva } from "class-variance-authority";
 import { centsToBRL } from "@/libs/currency";
 import { cn } from "@/libs/merge";
 import { useTransactionListViewModel } from "@/viewmodels";
@@ -11,14 +12,43 @@ import { EmptyState } from "../EmptyState";
 import { Pagination } from "../Pagination";
 import { Table } from "../Table";
 import { Button } from "../ui/Button";
-import { TransactionEditDialog } from "./TransactionEditDialog";
 import { TransactionCreateDialog } from "./TransactionCreateDialog";
+import { TransactionEditDialog } from "./TransactionEditDialog";
 
 const filters = [
 	{ id: "all", label: "Todos", icon: <DashboardIcon /> },
 	{ id: "income", label: "Entradas", icon: <DownloadIcon /> },
 	{ id: "outcome", label: "Saídas", icon: <UploadIcon /> },
 ] as const;
+
+const transactionTypeVariants = cva("", {
+	variants: {
+		type: {
+			income: "text-emerald-500",
+			outcome: "text-pink-600",
+		},
+	},
+	defaultVariants: {
+		type: "income",
+	},
+});
+
+const transactionIcons = {
+	income: DownloadIcon,
+	outcome: UploadIcon,
+} as const;
+
+const emptyStateContent = {
+	deleted: {
+		title: "Nenhum lançamento excluído",
+		description: "Todos os seus lançamentos estão ativos.",
+	},
+	active: {
+		title: "Nenhum lançamento cadastrado",
+		description:
+			"Caso para adicionar clique em novo valor ou se quiser resgatar um antigo clique em excluídos.",
+	},
+} as const;
 
 const skeletonIds = ["sk-1", "sk-2", "sk-3", "sk-4", "sk-5"];
 
@@ -83,18 +113,7 @@ export function TranscationList() {
 					</Table.Root>
 				</div>
 			) : transactions.length === 0 ? (
-				<EmptyState
-					title={
-						isDeleted
-							? "Nenhum lançamento excluído"
-							: "Nenhum lançamento cadastrado"
-					}
-					description={
-						isDeleted
-							? "Todos os seus lançamentos estão ativos."
-							: "Caso para adicionar clique em novo valor ou se quiser resgatar um antigo clique em excluídos."
-					}
-				/>
+				<EmptyState {...emptyStateContent[isDeleted ? "deleted" : "active"]} />
 			) : (
 				<div className="flex flex-col items-center w-full gap-6.25">
 					<Table.Root>
@@ -114,21 +133,21 @@ export function TranscationList() {
 									className={isDeleted ? "cursor-default" : undefined}
 								>
 									<Table.Cell>
-										{tx.type === "income" ? (
-											<DownloadIcon className="w-4.5 h-4.5 text-emerald-500" />
-										) : (
-											<UploadIcon className="w-4.5 h-4.5 text-pink-600" />
-										)}
-										<span
-											className={cn(
-												"text-base font-normal",
-												tx.type === "income"
-													? "text-emerald-500"
-													: "text-pink-600",
-											)}
-										>
-											{centsToBRL(tx.amount)}
-										</span>
+										{(() => {
+											const Icon = transactionIcons[tx.type];
+											const typeClass = transactionTypeVariants({
+												type: tx.type,
+											});
+
+											return (
+												<>
+													<Icon className={cn("w-4.5 h-4.5", typeClass)} />
+													<span className={cn("text-base font-normal", typeClass)}>
+														{centsToBRL(tx.amount)}
+													</span>
+												</>
+											);
+										})()}
 									</Table.Cell>
 
 									<Table.Cell>
