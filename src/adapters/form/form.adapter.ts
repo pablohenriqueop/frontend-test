@@ -1,5 +1,3 @@
-import type { z } from "zod";
-
 export interface FormFieldState {
 	invalid: boolean;
 	isDirty: boolean;
@@ -33,7 +31,7 @@ export interface UseFormReturn<T extends Record<string, unknown>> {
 }
 
 export interface UseFormOptions<T extends Record<string, unknown>> {
-	schema: z.ZodSchema<T>;
+	schema: unknown;
 	defaultValues: T;
 }
 

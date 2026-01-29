@@ -2,19 +2,19 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useMemo } from "react";
 import {
 	type DefaultValues,
-	type FieldValues,
 	type Path,
 	type PathValue,
 	type SubmitHandler,
 	useForm as useReactHookForm,
 } from "react-hook-form";
+import type { z } from "zod";
 import type { UseFormOptions, UseFormReturn } from "./form.adapter";
 
-export function useForm<T extends FieldValues>(
+export function useForm<T extends Record<string, unknown>>(
 	options: UseFormOptions<T>,
 ): UseFormReturn<T> {
 	const form = useReactHookForm<T>({
-		resolver: zodResolver(options.schema),
+		resolver: zodResolver(options.schema as z.ZodSchema<T>),
 		defaultValues: options.defaultValues as DefaultValues<T>,
 	});
 
