@@ -100,4 +100,10 @@ O projeto segue uma arquitetura baseada em **MVVM (Model-View-ViewModel)** com A
 - **`src/services`**: Comunicação com a API.
 - **`src/viewmodels`**: Lógica de estado e negócios, separando a View da lógica.
 
+## 📝 Decisões de Engenharia (ADRs)
+
+Para manter a consistência e o histórico do projeto, as decisões arquiteturais são documentadas como ADRs (Architecture Decision Records):
+
+- [ADR 001: Adoção do Padrão de Composição](./docs/adr/ADR-001-composition-pattern.md)
+
 ---
