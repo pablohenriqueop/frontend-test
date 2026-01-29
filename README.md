@@ -73,7 +73,7 @@ A aplicação estará disponível em `http://localhost:3000`.
 
 ### Testes E2E (Playwright)
 
-Certifique-se de que o **Backend** (`bun run server`) esteja rodando antes de iniciar os testes E2E.
+O comando de teste E2E está configurado para iniciar automaticamente tanto o **Frontend** quanto o **Backend** caso eles não estejam rodando.
 
 ```bash
 # Rodar testes em modo headless (console)
