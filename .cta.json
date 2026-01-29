@@ -1,0 +1,15 @@
+{
+  "projectName": "4pfinance-test",
+  "mode": "file-router",
+  "typescript": true,
+  "tailwind": true,
+  "packageManager": "bun",
+  "addOnOptions": {},
+  "git": true,
+  "version": 1,
+  "framework": "react-cra",
+  "chosenAddOns": [
+    "biome",
+    "tanstack-query"
+  ]
+}
